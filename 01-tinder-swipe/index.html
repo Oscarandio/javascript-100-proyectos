@@ -1,38 +1,52 @@
-<title>100 proyectos JS • 01 - Tinder Swipe</title>
-<main>
-  <section>
-    <header>
-      <img src="./tinder-logo.webp" alt="Tinder Logo" />
-    </header>
-    <div class="cards">
-      <article>
-        <img src="./photos/2.webp" alt="Alex, brown hair man, 25 years old" />
-        <h2>Álex <span>25</span></h2>
-        <div class="choice dislike"></div>
-        <div class="choice like"></div>
-      </article>
-      <article>
-        <img src="./photos/1.webp" alt="Leila, redhead, 27 years old" />
-        <h2>Leila <span>27</span></h2>
-        <div class="choice dislike"></div>
-        <div class="choice like"></div>
-      </article>
-    </div>
-    <footer>
-      <button class="is-undo" type="button" aria-label="undo"></button>
-      <button
-        class="is-dislike is-big"
-        type="button"
-        aria-label="dislike"></button>
-      <button
-        class="is-superlike"
-        type="button"
-        aria-label="superlike "></button>
-      <button class="is-like is-big" type="button" aria-label="like"></button>
-      <button class="is-boost" type="button" aria-label="boost"></button>
-    </footer>
-  </section>
-</main>
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>100 proyectos JS • 01 - Tinder Swipe</title>
+  </head>
+  <body>
+    <main>
+      <section>
+        <header>
+          <img src="./tinder-logo.webp" alt="Tinder Logo" />
+        </header>
+        <div class="cards">
+          <article>
+            <img
+              src="./photos/2.webp"
+              alt="Alex, brown hair man, 25 years old" />
+            <h2>Álex <span>25</span></h2>
+            <div class="choice dislike"></div>
+            <div class="choice like"></div>
+          </article>
+          <article>
+            <img src="./photos/1.webp" alt="Leila, redhead, 27 years old" />
+            <h2>Leila <span>27</span></h2>
+            <div class="choice dislike"></div>
+            <div class="choice like"></div>
+          </article>
+        </div>
+        <footer>
+          <button class="is-undo" type="button" aria-label="undo"></button>
+          <button
+            class="is-dislike is-big"
+            type="button"
+            aria-label="dislike"></button>
+          <button
+            class="is-superlike"
+            type="button"
+            aria-label="superlike "></button>
+          <button
+            class="is-like is-big"
+            type="button"
+            aria-label="like"></button>
+          <button class="is-boost" type="button" aria-label="boost"></button>
+        </footer>
+      </section>
+    </main>
+  </body>
+</html>
 <style>
   *,
   *::before,
@@ -54,16 +68,24 @@
       Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue',
       sans-serif;
   }
+  .white-bkg {
+    background: #f6f6f6;
+    inset: 0;
+    position: absolute;
+    z-index: -10;
+  }
+  .shadow {
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3));
+  }
   main {
-    background: url(./iphone.webp) no-repeat;
+    background: url('./iphone.webp') no-repeat;
     background-size: contain;
-    box-shadow: drop-shadow(0 0 10px rgba(0, 0, 0, 0.3));
     display: flex;
     height: 640px;
+    position: relative;
     width: 320px;
   }
   section {
-    background: #f6f6f6;
     border-radius: 32px;
     display: flex;
     flex-direction: column;
@@ -76,7 +98,8 @@
   }
   header {
     display: flex;
-    justify-content: center;
+    justify-content: start;
+    padding-left: 1rem;
 
     & img {
       height: 24px;
@@ -97,15 +120,14 @@
       background-size: 175px;
       border: 0;
       border-radius: 50%;
-      height: 32px;
-      width: 32px;
       cursor: pointer;
-      transition: scale 0.3 ease;
+      height: 32px;
+      transition: scale 0.3s ease;
+      width: 32px;
 
       &:hover {
         scale: 1.4;
       }
-
       &.is-big {
         background-size: 250px;
         height: 48px;
@@ -118,7 +140,7 @@
         background-position: -150px 0;
       }
       &.is-superlike {
-        background-position: -70px 0;
+        background-position: -70px 0px;
       }
       &.is-like {
         background-position: -50px 0;
@@ -131,40 +153,171 @@
     position: relative;
     width: 100%;
 
+    & > span {
+      color: #777;
+      display: grid;
+      font-size: 14px;
+      height: 100%;
+      place-content: center;
+      text-align: center;
+      z-index: -1;
+    }
     & article {
       border-radius: 8px;
-      box-shadow: 0 0 10px rgb(0 0 0 / 30%);
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
       cursor: grab;
       height: 100%;
+      inset: 0;
       overflow: hidden;
       position: absolute;
-      inset: 0;
       width: 100%;
       z-index: 2;
 
+      &.go-left {
+        transform: translateX(-150%) rotate(-30deg) !important;
+      }
+      &.go-right {
+        transform: translateX(150%) rotate(30deg) !important;
+      }
+      &.go-left,
+      &.go-right {
+        transition: transform 0.3s ease, rotate 0.3s ease;
+      }
+      &.reset {
+        transform: translateX(0) !important;
+        transition: transform 0.3s ease;
+      }
+      & .choice {
+        border: 4px solid;
+        border-radius: 8px;
+        color: black;
+        font-size: 24px;
+        font-weight: bold;
+        opacity: 0;
+        padding: 4px 8px;
+        position: absolute;
+        right: 16px;
+        text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        top: 32px;
+        width: -moz-fit-content;
+        width: fit-content;
+        z-index: 9999;
+
+        &.dislike {
+          border-color: #ff6e63;
+          color: #ff6e63;
+          transform: rotate(30deg);
+        }
+        &.like {
+          border-color: #63ff68;
+          color: #63ff68;
+          left: 16px;
+          transform: rotate(-30deg);
+        }
+      }
       & img {
         height: 100%;
         object-fit: cover;
         width: 100%;
       }
       & h2 {
+        align-items: flex-end;
+        background: linear-gradient(to top, #00000088 20%, transparent 40%);
         color: white;
         display: flex;
-        align-items: flex-end;
-        position: absolute;
-        inset: 0;
-        width: 100%;
         height: 100%;
+        inset: 0;
         padding: 16px;
+        position: absolute;
+        width: 100%;
         z-index: 3;
-        background: linear-gradient(to top, #00000088 20%, transparent 40%);
       }
       & span {
-        margin-left: 6px;
         font-size: 18px;
-        line-height: 1.4;
         font-weight: 400;
+        line-height: 1.4;
+        margin-left: 6px;
       }
     }
   }
 </style>
+<script>
+  const DECISION_THRESHOLD = 75;
+  let isAnimating = false;
+  let pullDeltaX = 0; // distance que la card se está arrastrando
+  function startDrag(event) {
+    if (isAnimating) return;
+    // get the first article element
+    const actualCard = event.target.closest('article');
+    if (!actualCard) return;
+    // get initial position of mouse or finger
+    const startX = event.pageX ?? event.touches[0].pageX;
+    // listen the mouse and touch movemenets
+    document.addEventListener('mousemove', onMove);
+    document.addEventListener('mouseup', onEnd);
+    document.addEventListener('touchmove', onMove, {
+      passive: true,
+    });
+    document.addEventListener('touchend', onEnd, {
+      passive: true,
+    });
+    function onMove(event) {
+      // current position of mouse or finger
+      const currentX = event.pageX ?? event.touches[0].pageX;
+      // the distance between the initial and current position
+      pullDeltaX = currentX - startX;
+      // no hay distancia recorrida
+      if (pullDeltaX === 0) return;
+      // change the flag to indicate we are animating
+      isAnimating = true;
+      // calculate the rotation of the card using the distance
+      const deg = pullDeltaX / 14;
+      // apply the transformation to the card
+      actualCard.style.transform = `translateX(${pullDeltaX}px) rotate(${deg}deg)`;
+      // change the cursor to grabbing
+      actualCard.style.cursor = 'grabbing';
+      // change opacity of the choice info
+      const opacity = Math.abs(pullDeltaX) / 100;
+      const isRight = pullDeltaX > 0;
+      const choiceEl = isRight
+        ? actualCard.querySelector('.choice.like')
+        : actualCard.querySelector('.choice.dislike');
+      choiceEl.style.opacity = opacity;
+    }
+    function onEnd(event) {
+      // remove the event listeners
+      document.removeEventListener('mousemove', onMove);
+      document.removeEventListener('mouseup', onEnd);
+      document.removeEventListener('touchmove', onMove);
+      document.removeEventListener('touchend', onEnd);
+      // saber si el usuario tomo una decisión
+      const decisionMade = Math.abs(pullDeltaX) >= DECISION_THRESHOLD;
+      if (decisionMade) {
+        const goRight = pullDeltaX >= 0;
+        const goLeft = !goRight;
+        // add class acording to the decision
+        actualCard.classList.add(goRight ? 'go-right' : 'go-left');
+        actualCard.addEventListener('transitionend', () => {
+          actualCard.remove();
+        });
+      } else {
+        actualCard.classList.add('reset');
+        actualCard.classList.remove('go-right', 'go-left');
+        actualCard.querySelectorAll('.choice').forEach((choice) => {
+          choice.style.opacity = 0;
+        });
+      }
+      // reset the variables
+      actualCard.addEventListener('transitionend', () => {
+        actualCard.removeAttribute('style');
+        actualCard.classList.remove('reset');
+        pullDeltaX = 0;
+        isAnimating = false;
+      });
+    }
+  }
+  document.addEventListener('mousedown', startDrag);
+  document.addEventListener('touchstart', startDrag, {
+    passive: true,
+  });
+</script>
